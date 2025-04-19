@@ -1,102 +1,81 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpr lFf">
+
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-toolbar-title>Nana</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer class="footer" >
+      <q-toolbar class="q-px-md q-py-sm flex flex-center" style="width: 100%">
+        <q-scroll-area class="flex flex-center" style="height: 23vh; max-width: 1000px; width: 100%;">
+          <q-editor
+            ref="editorRef"
+            v-model="newMessage"
+            placeholder="请输入消息..."
+            bordered
+            style="width: 90%"
+            @keydown.ctrl.enter.prevent="sendMessage"
+            autofocus
+            :input-style="{ minHeight: '48px' }"
+            autogrow
+            max-height="100%"
+          />
+
+        </q-scroll-area>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+// >>>>> 确保 editorRef 被定义以便访问 q-editor API <<<<<
+const editorRef = ref(null);
+
+const leftDrawerOpen = ref(false);
+// newMessage 绑定 q-editor 的 v-model (HTML 内容)
+const newMessage = ref('');
+
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
+
+const sendMessage = () => {
+  // >>>>> 通过 editorRef 获取原始 Markdown 内容 <<<<<
+  const markdownContent = editorRef.value ? editorRef.value.getMarkdown() : newMessage.value;
+
+  // 基本检查内容是否为空
+  const plainText = markdownContent.replace(/<[^>]*>/g, '').trim();
+
+  if (!plainText) {
+    return;
   }
-]
+  console.log("待发送消息 (Markdown):", markdownContent);
 
-const leftDrawerOpen = ref(false)
+  // TODO: 处理和发送 markdownContent
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+  // 清空编辑器 (清空 v-model，编辑器内容也会清空)
+  newMessage.value = '';
+};
+
+
 </script>
+
+<style lang="scss" scoped>
+.footer{
+  background: transparent;
+  display: flex;
+  align-items: center; /* 使 toolbar 在 footer 中垂直居中 */}
+
+</style>

@@ -12,14 +12,14 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+$primary   : rgba(25, 25, 27, 0.97);  // 基础背景色，更深的碳黑色，沉静内敛
+$secondary : rgb(45, 45, 48);        // 次级背景或主要元素背景，深邃的墨灰，与主背景形成细微层次
+$accent    : #BABABA;                // 突出元素或焦点色，较亮的钢灰，在深色背景上形成明显对比，低调而有质感
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
+$dark      : #121214;                // 最深邃的背景色，如夜般沉寂，用于需要极致深邃感的区域
+$dark-page : #0A0A0C;                // 页面的基础背景，近乎纯黑，为其他元素提供深不见底的画布
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+$positive  : #5F856E;  // 积极/成功色：中等深度的灰绿色，比背景亮且有明显色相，传达肯定与完成，柔和而不刺眼
+$negative  : #9C5A5A;  // 消极/错误色：中等深度的褐红色，有明确的红色倾向但不过分鲜艳，用于警示或提示问题，醒目但不突兀
+$info      : #5E7B9B;  // 信息色：中等深度的蓝灰色，带有清晰的蓝色调，用于提示或说明信息，沉稳而易于识别
+$warning   : #A38B5F;  // 警告/注意色：中等深度的赭黄色，温暖且有大地色质感，用于需要关注的提示，既有提醒作用又不失高级感
